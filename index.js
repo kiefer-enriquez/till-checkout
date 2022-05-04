@@ -1,21 +1,24 @@
 //TillCheckout alpha version
 /*
 ### Roadmap
-- security, obfuscate api creds by processing debit request on backend
 - advance form styling
 - autofill feature
 - cvv refreshing feature
 - eslint
-- typescript
 */
 import React, { useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { WebView } from "react-native-webview";
-import transactionRequest from "./src/api/transactionRequest";
+import transactionRequest from "../api/transactionRequest";
 
-const TillCheckout = ({ merchantApi, amount, onSucccess, onError }) => {
+const TillCheckout = ({
+  merchantApi,
+  transactionId,
+  amount,
+  onSucccess,
+  onError,
+}) => {
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
-
   const handleWebMessageEvent = (data) => {
     //debit
     if (data !== "false") {
@@ -23,6 +26,7 @@ const TillCheckout = ({ merchantApi, amount, onSucccess, onError }) => {
       transactionRequest.debitRequest(
         {
           merchantApi,
+          transactionId,
           amount,
           transactionToken: data,
         },

@@ -10,7 +10,7 @@ The following library allows developers to use [Payment.js](ttps://gateway.tillp
 
 - This library relies on:
 
-[React Native Webview](https://www.npmjs.com/package/react-native-webview), [Axio](https://www.npmjs.com/package/axios) and . Please follow [this guide](https://github.com/react-native-community/react-native-webview/blob/HEAD/docs/Getting-Started.md) to install in your project first..
+[React Native Webview](https://www.npmjs.com/package/react-native-webview), [Axio](https://www.npmjs.com/package/axios) and [React Native Config](https://github.com/luggit/react-native-config). Please follow the prequisites guide first before the installation.
 
 ## Installation
 
@@ -32,23 +32,21 @@ import TillCheckout from "tillcheckout";
 import TillCheckout from "tillcheckout";
 
 /*
-This is STRICTLY for DEMO purposes only.
-Please DO NOT store api information to your files (dev or live). 
-
-We are looking to improve how we can get debit request process on a backend instead.
+Please make sure you follow react-native-config guide and make sure env config are properly setup,
+otherwise you can apply your own way of obfuscating sensitive keys in your app.
 */
 const apiInfo = {
-  transactionApiUrl: "", // till payment gateway url
-  apiKey: "",
-  apiUser: "",
-  apiPassword: "",
-  transactionId: "", // unique transaction id
-  webClientUrl: "", // form url to tokenize credit card details
+  transactionApiUrl: Config.API_URL, // Till payment gateway environment url
+  apiKey: Config.API_KEY, // Api key
+  apiUser: Config.API_USER, // Api username
+  apiPassword: Config.API_PASS, // Api password
+  webClientUrl: Config.WEB_CLIENT_URL, // Url of the web client that host card tokenization
 };
 
 const MyTillCheckout = () => (
   <TillCheckout
     merchantApi={apiInfo}
+    transactionId="" // Unique merchant transaction id
     amount="2.00"
     onSucccess={(data) =>
       console.log("Till checkout session is successful:", data)
@@ -75,9 +73,7 @@ export default MyTillCheckout;
 
 ### Roadmap
 
-- security, obfuscate api creds by processing debit request on backend
 - advance form styling
 - autofill feature
 - cvv refreshing feature
 - eslint
-- typescript

@@ -1,11 +1,15 @@
 //API LAYER
 import client from "./client";
 
-const debitRequest = ({ merchantApi, amount, transactionToken }, callback) => {
+const debitRequest = (
+  { merchantApi, transactionId, amount, transactionToken },
+  callback
+) => {
   client.postDebitPayment(
     {
       merchantApi,
       amount,
+      transactionId,
       transactionToken,
     },
     (res) => {
@@ -14,7 +18,7 @@ const debitRequest = ({ merchantApi, amount, transactionToken }, callback) => {
   );
 };
 
-// TBC (testing)
+// TBC (alpha testing)
 const statusRequest = ({ uuid }) => {
   let endpoint = `/status/4gaw3UnTwYzXa9hnKgyT/getByUuid/${uuid}`;
   client.getStatus(endpoint);

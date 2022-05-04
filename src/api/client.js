@@ -1,21 +1,18 @@
 //CLIENT
-/*
-### will potentially remove processing debit from mobile client later, for demo purpose only
-*/
 import axios from "axios";
 
 //debit
 const postDebitPayment = (
-  { merchantApi, amount, transactionToken, isRecurring = false },
+  {
+    merchantApi,
+    amount,
+    transactionToken,
+    isRecurring = false,
+    transactionId: merchantTransactionId,
+  },
   callback
 ) => {
-  const {
-    transactionApiUrl,
-    apiKey,
-    apiUser,
-    apiPassword,
-    transactionId: merchantTransactionId,
-  } = merchantApi;
+  const { transactionApiUrl, apiKey, apiUser, apiPassword } = merchantApi;
   let debitUri = `${transactionApiUrl}/transaction/${apiKey}/debit`;
   let data = {
     merchantTransactionId,
@@ -34,14 +31,18 @@ const postDebitPayment = (
       headers: { "Access-Control-Allow-Origin": "*" },
     })
     .then((res) => {
+      // console.log(`Status: ${res.status}`);
+      // console.log('Body: ', res.data);
       callback(res.data);
     })
     .catch((err) => {
+      // console.log('App Error:\n' + err);
+      // console.log('Error Data:\n', err.response.data);
       callback(err.response.data);
     });
 };
 
-// TBC (testing)
+//test
 //status check
 const getStatus = (endpoint) => {
   axios
